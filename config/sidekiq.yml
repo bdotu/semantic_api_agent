@@ -1,0 +1,23 @@
+default: &default
+  semantic_api_agent:
+    pidfile: '/data/semantic_api_agent/shared/pids/sidekiq_semantic_api_agent.pid'
+    logfile: '/data/semantic_api_agent/shared/log/sidekiq_semantic_api_agent.log'
+    errlog: '/data/semantic_api_agent/shared/log/sidekiq_semantic_api_agent.err'
+
+test:
+  <<: *default
+
+development:
+  <<: *default
+  semantic_api_agent:
+    pidfile: 'tmp/sidekiq_semantic_api_agent.pid'
+    logfile: 'log/sidekiq_semantic_api_agent.log'
+    errlog: 'log/sidekiq_semantic_api_agent.err'
+
+staging:
+  <<: *default
+
+
+production:
+  <<: *default
+

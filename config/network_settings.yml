@@ -1,0 +1,9 @@
+default: &default
+  can_say_hi: true
+  ci_endpoint: https://api.collectiveintellect.com/semanticApi/
+  user: null
+  pwd: cKo3LL`wiryz2RyR!Ogk
+  job_interval: 5
+  counter_upperbound: 5
+development:
+  <<: *default

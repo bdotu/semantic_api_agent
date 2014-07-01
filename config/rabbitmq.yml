@@ -1,0 +1,27 @@
+defaults: &defaults
+  host: localhost
+  port: 5672
+  user: guest
+  pass: guest
+  exchange_name: request_waiting_list
+  broadcast_pool: request_response_list
+
+test:
+  <<: *defaults
+
+development:
+  <<: *defaults
+
+staging:
+  <<: *defaults
+  host: int-rabbitmq.rabbitmq-staging.cloud.vitrue.com
+  vhost: '/'
+  user: vitrue
+  pass: ThisIsNotProd
+
+production:
+  <<: *defaults
+  host: int.rabbitmq.cloud.vitrue.com
+  vhost: '/'
+  user: vitrue
+  pass: WhereIsTheBacon

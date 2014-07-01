@@ -1,0 +1,38 @@
+defaults: &defaults
+  host: 'localhost'
+  user: 'guest'
+  pass: 'guest'
+  port: 5672
+  vhost: '/'
+  nb_of_workers: 1
+  prefetch_nb: 1
+
+request_listener_defaults: &request_listener_defaults
+  <<: *defaults
+  exchange_name: 'request_waiting_list'
+  pidfile: '...'
+  logfile: '...'
+  queue_name: 'request_listener_queue.default'
+
+development:
+  request_listener:
+    <<: *request_listener_defaults
+    pidfile: 'tmp/request_listener.pid'
+    logfile: 'log/request_listener.log'
+
+staging:
+  request_listener:
+    <<: *request_listener_defaults
+    queue_name: 'request_listener_queue.staging'
+    host: 'int-rabbitmq.rabbitmq-staging.cloud.vitrue.com'
+    port: 5672
+    pass: 'ThisIsNotProd'
+    user: 'vitrue'
+
+production:
+  request_listener:
+    <<: *request_listener_defaults
+    queue_name: 'request_listener_queue.queue-production'
+    host: 'int.rabbitmq.cloud.vitrue.com'
+    user: 'vitrue'
+    pass: 'WhereIsTheBacon'
