@@ -57,10 +57,10 @@ class ApiRequestJob
       'counter' => 0
     )
 
-    # puts "sending to CI....."
-    # puts "------------------JOB INFO-------------------"
-    # puts job_info.inspect
-    # puts "---------------------------------------------"
+    puts "sending to CI....."
+    puts "------------------JOB INFO-------------------"
+    puts job_info.inspect
+    puts "---------------------------------------------"
 
     return nil if job_info['id'].nil?
     job_info
@@ -103,12 +103,12 @@ class ApiRequestJob
       #TODO:
       #store the analysis into database
 
-      # db = SQLITE3::Database.new "development.db"
+      db = SQLITE3::Database.new "development.db"
 
-      # analysis['topTerms'].each do |item|
-      #   db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
-      #     VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
-      # end
+      analysis['topTerms'].each do |item|
+        db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
+          VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
+      end
 
       # db = Sequel.sqlite('development.db')
 
