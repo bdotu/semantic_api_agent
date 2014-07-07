@@ -1,5 +1,4 @@
 require './config/worker_init'
-#require 'sqlite3'
 
 class ApiRequestJob
   include Sidekiq::Worker
@@ -104,20 +103,6 @@ class ApiRequestJob
       #store the analysis into database
 
       db = SQLITE3::Database.new "development.db"
-
-      # rows = db.execute <<-SQL
-      #   create table numbers (
-      #     name varchar(30),
-      #     val int
-      #   );
-      # SQL
-
-      # {
-      #   "one" => 1,
-      #   "two" => 2,
-      # }.each do |pair|
-      #   db.execute "insert into numbers values ( ?, ? )", pair
-      # end
 
       analysis['topTerms'].each do |item|
         db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
