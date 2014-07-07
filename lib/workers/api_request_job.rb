@@ -1,4 +1,5 @@
 require './config/worker_init'
+#require 'sequel'
 
 class ApiRequestJob
   include Sidekiq::Worker
@@ -88,6 +89,8 @@ class ApiRequestJob
 
     puts "-------------ANALYSIS INFO-------------"
     puts analysis.inspect
+    puts "TEST!!!!!"
+    puts analysis['status']
 
     case analysis['status']
     when 'pending'
@@ -102,12 +105,16 @@ class ApiRequestJob
       #TODO:
       #store the analysis into database
 
-      db = SQLITE3::Database.new "development.db"
+      # db = SQLITE3::Database.new "development.db"
 
-      analysis['topTerms'].each do |item|
-        db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
-          VALUES (0, #{item['term']}, #{item['count']}, #{item['id']}, null)" )
-      end
+      # analysis['topTerms'].each do |item|
+      #   db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
+      #     VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
+      # end
+
+      # db = Sequel.sqlite('development.db')
+
+      # db.run "CREATE TABLE users (name VARCHAR(255) NOT NULL, age INT(3) NOT NULL)"
 
       return false
     end
