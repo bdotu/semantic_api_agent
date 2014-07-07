@@ -57,10 +57,10 @@ class ApiRequestJob
       'counter' => 0
     )
 
-    puts "sending to CI....."
-    puts "------------------JOB INFO-------------------"
-    puts job_info.inspect
-    puts "---------------------------------------------"
+    # puts "sending to CI....."
+    # puts "------------------JOB INFO-------------------"
+    # puts job_info.inspect
+    # puts "---------------------------------------------"
 
     return nil if job_info['id'].nil?
     job_info
