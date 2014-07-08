@@ -1,5 +1,6 @@
 require './config/worker_init'
-#require 'sequel'
+require './config/sequel'
+require 'sequel'
 
 class ApiRequestJob
   include Sidekiq::Worker
@@ -13,6 +14,22 @@ class ApiRequestJob
   #   lock = self.lock(job_id)
   #   Sidekiq.redis { |conn| conn.del(lock) }
   # end
+  
+# String :term
+#       String :frequency
+#       String :account_id
+#       String :channel_type
+
+  def test
+    KeyTerm.insert({
+      term: "abc",
+      frequency: "123",
+      account_id: "11",
+      channel_type: "fb"
+      })
+    puts KeyTerm.where({term:"abc"}).all.inspect
+
+  end
 
   def self.seed(time, data, job_info)
     if job_info.nil?
@@ -57,10 +74,10 @@ class ApiRequestJob
       'counter' => 0
     )
 
-    # puts "sending to CI....."
-    # puts "------------------JOB INFO-------------------"
-    # puts job_info.inspect
-    # puts "---------------------------------------------"
+    puts "sending to CI....."
+    puts "------------------JOB INFO-------------------"
+    puts job_info.inspect
+    puts "---------------------------------------------"
 
     return nil if job_info['id'].nil?
     job_info
@@ -85,6 +102,7 @@ class ApiRequestJob
       userpwd: "#{Broker.network_settings['user']}:#{Broker.network_settings['pwd']}",
       headers: { 'Content-Type' => "application/json"}
     )
+
     analysis = JSON.parse(response.response_body)
 
     puts "-------------ANALYSIS INFO-------------"
@@ -103,16 +121,23 @@ class ApiRequestJob
       #TODO:
       #store the analysis into database
 
-      db = SQLITE3::Database.new "development.db"
+      # db = SQLITE3::Database.new "development.db"
 
-      analysis['topTerms'].each do |item|
-        db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
-          VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
-      end
+      # analysis['topTerms'].each do |item|
+      #   db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
+      #     VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
+      # end
 
       # db = Sequel.sqlite('development.db')
-
       # db.run "CREATE TABLE users (name VARCHAR(255) NOT NULL, age INT(3) NOT NULL)"
+
+      KeyTerm.insert({
+        term: "def",
+        frequency: "100",
+        account_id: "0011",
+        channel_type: "fb"         
+      })
+     puts KeyTerm.where({term:"def"}).all.inspect
 
       return false
     end

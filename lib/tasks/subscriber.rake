@@ -21,6 +21,14 @@ namespace :subscriber do
     EventSubscriber.new(:request_listener).purge!
   end
 
+  task :test do
+    ApiRequestJob.new.test
+  end
+
+  task :get_analysis do
+    ApiRequestJob.new.get_analysis_from_ci("c1ceead0-f632-4a34-8ac0-b2b30a29d901")
+  end
+
   desc "Sending messages for testing..."
   task :send_sample_data do
     data = {

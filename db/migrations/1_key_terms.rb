@@ -20,11 +20,9 @@ Sequel.migration do
       String :frequency
       String :account_id
       String :channel_type
-      #TrueClass :is_alive
-      #TrueClass :is_read_alive
     end
   end
   down do
-    drop_table :resources
+    drop_table :key_terms
   end
 end

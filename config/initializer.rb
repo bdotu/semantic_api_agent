@@ -16,4 +16,7 @@ $project_root = File.expand_path('.')
 
 Broker.init($project_root, [:database, :redis, :sidekiq])
 
+DB = Broker.database
+require './config/sequel'
+
 $rabbitmq_config = YAML.load_file('config/rabbitmq.yml')[RACK_ENV].symbolize_keys
