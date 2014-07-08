@@ -131,13 +131,13 @@ class ApiRequestJob
       # db = Sequel.sqlite('development.db')
       # db.run "CREATE TABLE users (name VARCHAR(255) NOT NULL, age INT(3) NOT NULL)"
 
-      KeyTerm.insert({
-        term: "def",
-        frequency: "100",
-        account_id: "0011",
-        channel_type: "fb"         
-      })
-     puts KeyTerm.where({term:"def"}).all.inspect
+     #  KeyTerm.insert({
+     #    term: "def",
+     #    frequency: "100",
+     #    account_id: "0011",
+     #    channel_type: "fb"         
+     #  })
+     # puts KeyTerm.where({term:"def"}).all.inspect
 
       return false
     end
