@@ -15,24 +15,15 @@ class ApiRequestJob
   #   Sidekiq.redis { |conn| conn.del(lock) }
   # end
   
-# String :term
-#       String :frequency
-#       String :account_id
-#       String :channel_type
-
-  def test
-    # KeyTerm.insert({
-    #   term: "1abc",
-    #   frequency: "123",
-    #   account_id: "11",
-    #   channel_type: "fb"
-    #   })
-    # puts KeyTerm.where({term:"abc"}).all.inspect
-
-    db = Sequel.sqlite('./db/development.db')
-    db.run "INSERT INTO numbers VALUES ('tom', 15)"
-    puts "GOT HERE"
-  end
+  # def test
+  #   KeyTerm.insert({
+  #     term: "1abc",
+  #     frequency: "123",
+  #     account_id: "11",
+  #     channel_type: "fb"
+  #     })
+  #   puts KeyTerm.where({term:"abc"}).all.inspect
+  # end
 
   def self.seed(time, data, job_info)
     if job_info.nil?
@@ -121,15 +112,11 @@ class ApiRequestJob
       # )
       # push_analysis_back(analysis)
 
-      #TODO:
-      #store the analysis into database
-
+      # Stores topTerms into development.db
       analysis['topTerms'].each do |item|
-        # puts item["term"]
         db = Sequel.sqlite('./db/development.db')
-        db.run "INSERT INTO key_terms 
+        db.run "INSERT INTO key_terms ( term, frequency, account_id, channel_type )
                 VALUES ( '#{item['term']}', '#{item['count']}', '#{item['id']}', 'null')"
-        #puts "#{item['term']}" + "#{item['id']}"
       end
 
       return false
