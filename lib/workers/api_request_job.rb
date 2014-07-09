@@ -1,6 +1,6 @@
 require './config/worker_init'
 require './config/sequel'
-require 'sequel'
+#require 'sequel'
 
 class ApiRequestJob
   include Sidekiq::Worker
@@ -21,14 +21,17 @@ class ApiRequestJob
 #       String :channel_type
 
   def test
-    KeyTerm.insert({
-      term: "abc",
-      frequency: "123",
-      account_id: "11",
-      channel_type: "fb"
-      })
-    puts KeyTerm.where({term:"abc"}).all.inspect
+    # KeyTerm.insert({
+    #   term: "1abc",
+    #   frequency: "123",
+    #   account_id: "11",
+    #   channel_type: "fb"
+    #   })
+    # puts KeyTerm.where({term:"abc"}).all.inspect
 
+    db = Sequel.sqlite('./db/development.db')
+    db.run "INSERT INTO numbers VALUES ('tom', 15)"
+    puts "GOT HERE"
   end
 
   def self.seed(time, data, job_info)
@@ -121,23 +124,13 @@ class ApiRequestJob
       #TODO:
       #store the analysis into database
 
-      # db = SQLITE3::Database.new "development.db"
-
-      # analysis['topTerms'].each do |item|
-      #   db.execute ( "INSERT INTO key_terms (id, term, frequency, account_id, channel_type) 
-      #     VALUES (0, #{item[term]}, #{item[count]}, #{item[id]}, null)" )
-      # end
-
-      # db = Sequel.sqlite('development.db')
-      # db.run "CREATE TABLE users (name VARCHAR(255) NOT NULL, age INT(3) NOT NULL)"
-
-     #  KeyTerm.insert({
-     #    term: "def",
-     #    frequency: "100",
-     #    account_id: "0011",
-     #    channel_type: "fb"         
-     #  })
-     # puts KeyTerm.where({term:"def"}).all.inspect
+      analysis['topTerms'].each do |item|
+        # puts item["term"]
+        db = Sequel.sqlite('./db/development.db')
+        db.run "INSERT INTO key_terms 
+                VALUES ( '#{item['term']}', '#{item['count']}', '#{item['id']}', 'null')"
+        #puts "#{item['term']}" + "#{item['id']}"
+      end
 
       return false
     end

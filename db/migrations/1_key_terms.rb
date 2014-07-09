@@ -15,7 +15,7 @@
 Sequel.migration do
   up do
     create_table :key_terms do
-      primary_key :id
+      # primary_key :id
       String :term
       String :frequency
       String :account_id
