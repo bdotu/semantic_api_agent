@@ -14,16 +14,13 @@ class ApiRequestJob
   #   lock = self.lock(job_id)
   #   Sidekiq.redis { |conn| conn.del(lock) }
   # end
-  
-  # def test
-  #   KeyTerm.insert({
-  #     term: "1abc",
-  #     frequency: "123",
-  #     account_id: "11",
-  #     channel_type: "fb"
-  #     })
-  #   puts KeyTerm.where({term:"abc"}).all.inspect
-  # end
+
+  def test
+    db = Sequel.sqlite('./db/test.db')
+    db.fetch("SELECT * FROM key_terms") do |row|
+      puts row
+    end
+  end
 
   def self.seed(time, data, job_info)
     if job_info.nil?
@@ -112,7 +109,7 @@ class ApiRequestJob
       # )
       # push_analysis_back(analysis)
 
-      # Stores topTerms into development.db
+      # Stores topTerms into db
       analysis['topTerms'].each do |item|
         db = Sequel.sqlite('./db/development.db')
         db.run "INSERT INTO key_terms ( term, frequency, account_id, channel_type )
@@ -120,6 +117,15 @@ class ApiRequestJob
       end
 
       return false
+    end
+  end
+
+  #Get top 20 terms based on frequency from db
+  def top_terms
+    db = Sequel.sqlite('./db/development.db')
+    puts "----------------TOP 20 TERMS-----------------"
+    db.fetch("SELECT * FROM key_terms GROUP BY id HAVING id <= 20") do |row|
+      puts row
     end
   end
 
