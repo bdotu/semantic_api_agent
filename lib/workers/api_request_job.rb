@@ -16,7 +16,7 @@ class ApiRequestJob
   # end
 
   def test
-    KeyTerm.insert(:term => 'howdypppppppp', :frequency => '7', :account_id => '127678aghfag686', :channel_type => 'FB')
+    #KeyTerm.all.inspect
   end
 
   def self.seed(time, data, job_info)
@@ -59,7 +59,9 @@ class ApiRequestJob
     job_info.merge!(
       'caller' => data['caller'],
       'request_id' => data['request_id'],
-      'counter' => 0
+      'counter' => 0,
+      'channel_id' => data['channel_id'],
+      'channel_type' => data['channel_type']
     )
 
     puts "sending to CI....."
@@ -94,60 +96,27 @@ class ApiRequestJob
     analysis = JSON.parse(response.response_body)
 
     puts "-------------ANALYSIS INFO-------------"
-    puts analysis.inspect
+    #puts analysis.inspect
 
     case analysis['status']
     when 'pending'
       return true
     when 'completed'
-      # analysis.merge!(
-      #   'caller' => job_info['caller'],
-      #   'request_id' => job_info['request_id']
-      # )
+      analysis.merge!(
+        'caller' => job_info['caller'],
+        'request_id' => job_info['request_id'],
+        'channel_id' => job_info['channel_id'],
+        'channel_type' => job_info['channel_type']
+      )
+      puts analysis.inspect
       # push_analysis_back(analysis)
 
       # Stores topTerms into db
-      # analysis['topTerms'].each do |item|
-      #   db = Sequel.sqlite('./db/development.db')
-      #   db.run "INSERT INTO key_terms ( term, frequency, account_id, channel_type )
-      #           VALUES ( '#{item['term']}', '#{item['count']}', '#{item['id']}', 'null')"
-      # end
-
       analysis['topTerms'].each do |item|
-        KeyTerm.insert(KeyTerm.load(:term => "#{item['term']}", :frequency => "#{item['count']}", :account_id => "#{item['id']}", :channel_type => "null"))
+        KeyTerm.insert(:term => "#{item['term']}", :count => "#{item['count']}", :account_id => "#{item['id']}", :channel_id => "#{analysis['channel_id']}", :channel_type => "#{analysis['channel_type']}")
       end
 
       return false
-    end
-  end
-
-  # Get top n terms from db based on frequency
-  # Top terms in the analysis from CI are already sorted based on count
-  # As such fetch query is based on primary_key
-  
-  # def top_terms
-  #   db = Sequel.sqlite('./db/development.db')
-  #   puts "----------------TOP 20 TERMS-----------------"
-  #   db.fetch("SELECT * FROM key_terms GROUP BY id HAVING id <= 20") do |row|
-  #     puts row
-  #   end
-  # end
-
-  def top_terms(n)
-    db = Sequel.sqlite('./db/test.db')
-    data = db.fetch("SELECT COUNT(*) FROM key_terms")
-    #Parse data for count
-    tmp = data.all.inspect.sub(/.*?=>/, '')
-    count = tmp[0...tmp.length-2].to_i
-    if count < n
-      puts "Table contains only #{count} entries"
-      db.fetch "SELECT * FROM key_terms GROUP BY id HAVING id <= #{count}" do |row|
-        puts row
-      end
-    else
-      db.fetch "SELECT * FROM key_terms GROUP BY id HAVING id <= #{n}" do |row|
-        puts row
-      end
     end
   end
 

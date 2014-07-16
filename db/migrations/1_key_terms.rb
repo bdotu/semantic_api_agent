@@ -17,8 +17,9 @@ Sequel.migration do
     create_table :key_terms do
       primary_key :id
       String :term
-      String :frequency
+      String :count
       String :account_id
+      String :channel_id
       String :channel_type
     end
   end

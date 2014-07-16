@@ -147,8 +147,8 @@ namespace :subscriber do
         {"id"=> "105","text"=> "Bruce Lee!!!"}
       ],
       "enrichments" => [
-        "top_terms",
-        "theming"
+        "top_terms"
+        # "theming"
       ]
     }
 
