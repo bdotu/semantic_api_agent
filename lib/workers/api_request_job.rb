@@ -16,7 +16,8 @@ class ApiRequestJob
   # end
 
   def test
-    #KeyTerm.all.inspect
+    count = KeyTerm.where(:channel_type => 'Facebook', :channel_id => 2010).count
+    puts count
   end
 
   def self.seed(time, data, job_info)
@@ -113,7 +114,7 @@ class ApiRequestJob
 
       # Stores topTerms into db
       analysis['topTerms'].each do |item|
-        KeyTerm.insert(:term => "#{item['term']}", :count => "#{item['count']}", :account_id => "#{item['id']}", :channel_id => "#{analysis['channel_id']}", :channel_type => "#{analysis['channel_type']}")
+        KeyTerm.insert(:term => item['term'], :count => item['count'], :account_id => item['id'], :channel_id => analysis['channel_id'], :channel_type => analysis['channel_type'])
       end
 
       return false

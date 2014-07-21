@@ -25,13 +25,9 @@ namespace :subscriber do
     ApiRequestJob.new.test
   end
 
-  task :top_terms do
-    ApiRequestJob.new.top_terms(100)
-  end
-
-
   desc "Sending messages for testing..."
   task :send_sample_data do
+=begin
     data = {
       "caller" => "Engage",
       "request_id" => "88888",
@@ -145,6 +141,52 @@ namespace :subscriber do
         {"id"=> "103","text"=> "Water can flow, creep, drip or crash."},
         {"id"=> "104","text"=> "Be water my friend."},
         {"id"=> "105","text"=> "Bruce Lee!!!"}
+      ],
+      "enrichments" => [
+        "top_terms"
+        # "theming"
+      ]
+    }
+=end
+
+    data = {
+      "caller" => "Engage",
+      "request_id" => "88888",
+      "customerId" => 6357,
+      "channel_id" => 2010,
+      "channel_type" => "Twitter",
+      "documents" => [
+        {"id"=> "000","text"=> "hello world"},
+        {"id"=> "001","text"=> "goodbye world"},
+        {"id"=> "002","text"=> "Germany won the world cup"},
+        {"id"=> "003","text"=> "the almost paradigm"},
+        {"id"=> "004","text"=> "the paradigm shift"},
+        {"id"=> "005","text"=> "Sherlock Holmes"},
+        {"id"=> "006","text"=> "man is nothing the work that is"},
+        {"id"=> "007","text"=> "what do you want"},
+        {"id"=> "008","text"=> "Love is blind"},
+        {"id"=> "009","text"=> "working hard"},
+        {"id"=> "010","text"=> "hardly working"},
+        {"id"=> "011","text"=> "opportunity cost"},
+        {"id"=> "012","text"=> "switching cost"},
+        {"id"=> "013","text"=> "oracle go!"},
+        {"id"=> "014","text"=> "hahaha"},
+        {"id"=> "015","text"=> "dream big"},
+        {"id"=> "016","text"=> "wtf"},
+        {"id"=> "017","text"=> "like you"},
+        {"id"=> "018","text"=> "what???"},
+        {"id"=> "019","text"=> "yeah"},
+        {"id"=> "020","text"=> "oracle yeah!!!!!"},
+        {"id"=> "021","text"=> "hate to do this"},
+        {"id"=> "022","text"=> "bullshit Oracle"},
+        {"id"=> "023","text"=> "back off Oracle!!!"},
+        {"id"=> "024","text"=> "What is Oracle>????"},
+        {"id"=> "025","text"=> "I hate Oracle!!!"},
+        {"id"=> "026","text"=> "I don't like no-sql database"},
+        {"id"=> "027","text"=> "Wanna join Oracle???"},
+        {"id"=> "028","text"=> "Oracle or IBM?"},
+        {"id"=> "029","text"=> "get this coupon for free!"},
+        {"id"=> "030","text"=> "Oracle database on sale! database database"}
       ],
       "enrichments" => [
         "top_terms"
