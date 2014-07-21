@@ -15,11 +15,6 @@ class ApiRequestJob
   #   Sidekiq.redis { |conn| conn.del(lock) }
   # end
 
-  def test
-    count = KeyTerm.where(:channel_type => 'Facebook', :channel_id => 2010).count
-    puts count
-  end
-
   def self.seed(time, data, job_info)
     if job_info.nil?
       perform_in(time, data, nil)
