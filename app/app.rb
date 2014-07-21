@@ -25,8 +25,8 @@ class SemanticApiAgent < Sinatra::Base
     if params[:n].nil?
       response = top_terms(20, params[:channel_type], params[:channel_id])
     else
-	    response = top_terms(params[:n], params[:channel_type], params[:channel_id])
+      response = top_terms(params[:n], params[:channel_type], params[:channel_id])
     end
-	  response
+    response
   end
 end
