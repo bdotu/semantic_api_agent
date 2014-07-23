@@ -6,9 +6,9 @@ class SemanticApiAgent < Sinatra::Base
   helpers Sinatra::KeyTermsHelper
 
   get '/hi' do
-	  "Hello World!!!"
+    "Hello World!!!"
   end
-  
+
   # Returns top n terms
   get '/top_terms/?:n?/?:channel_type?/?:channel_id?' do
     if params[:n].nil?
@@ -16,6 +16,6 @@ class SemanticApiAgent < Sinatra::Base
     else
       response = top_terms(params[:n], params[:channel_type], params[:channel_id])
     end
-    response
+    response.to_json
   end
 end

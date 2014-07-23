@@ -6,12 +6,12 @@ module Sinatra
     def top_terms(n, channel_type, channel_id)
       count = KeyTerm.where(:channel_type => channel_type, :channel_id => channel_id).count
       if count > 0 && count < n.to_i
-        return "Table contains only #{count} entries"
+        return []
       elsif count == 0
         return "No such channel_type and channel_id in the database"
       else
-        ds = KeyTerm.group(:id).where(:channel_type => channel_type, :channel_id => channel_id).order(Sequel.desc(:count))
-        ds.limit(n.to_i).all.inspect
+        ds = KeyTerm.where(:channel_type => channel_type, :channel_id => channel_id).order(Sequel.desc(:count))
+        ds.limit(n.to_i)
       end
     end
 
