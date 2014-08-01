@@ -21,6 +21,7 @@ Sequel.migration do
       String :account_id
       String :channel_id
       String :channel_type
+      Time :created_at
     end
   end
   down do

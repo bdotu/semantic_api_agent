@@ -1,6 +1,5 @@
 require './config/worker_init'
 require './config/sequel'
-#require 'sequel'
 
 class ApiRequestJob
   include Sidekiq::Worker
@@ -109,7 +108,7 @@ class ApiRequestJob
 
       # Stores topTerms into db
       analysis['topTerms'].each do |item|
-        KeyTerm.insert(:term => item['term'], :count => item['count'], :account_id => item['id'], :channel_id => analysis['channel_id'], :channel_type => analysis['channel_type'])
+        KeyTerm.insert(:term => item['term'], :count => item['count'], :account_id => item['id'], :channel_id => analysis['channel_id'], :channel_type => analysis['channel_type'], :created_at => DateTime.now.seconds_since_midnight)
       end
 
       return false

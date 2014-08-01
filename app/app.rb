@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require './lib/workers/api_request_job'
 require './app/helper/key_terms_helper'
+require 'csv'
 
 class SemanticApiAgent < Sinatra::Base
   helpers Sinatra::KeyTermsHelper
@@ -18,4 +19,7 @@ class SemanticApiAgent < Sinatra::Base
     end
     response.to_json
   end
+
+  # Downloads top n terms to a csv file
+
 end
